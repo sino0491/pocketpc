@@ -3,55 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PocketPC Support</title>
+<title>PocketPC · Your iPhone is a desktop</title>
+<meta name="description" content="PocketPC turns your iPhone into a desktop computer on any TV, monitor or AR glasses, with your iPhone as the trackpad and keyboard.">
 <style>
-  :root { color-scheme: light dark; }
-  body { font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
-  h1 { font-size: 30px; margin-bottom: 4px; }
-  h2 { font-size: 20px; margin-top: 32px; }
-  .muted { opacity: .7; }
-  a { color: #0a66d8; }
+  :root {
+    --ink: #0f1522; --muted: #5a6477; --line: rgba(15,21,34,.09);
+    --blue: #2f7bf6; --teal: #1cc8c1; --indigo: #6b5cff; --card: #ffffff; --page: #f4f6fb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; color: var(--ink); background: var(--page); }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; color: white; background: radial-gradient(1200px 520px at 78% -10%, rgba(28,200,193,.55), transparent 60%), radial-gradient(900px 600px at 10% 110%, rgba(107,92,255,.55), transparent 60%), linear-gradient(160deg, #0a1022 0%, #0e1a3a 55%, #0b1430 100%); }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; letter-spacing: -.2px; }
+  .brand i { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--teal), var(--blue) 55%, var(--indigo)); box-shadow: 0 6px 18px rgba(47,123,246,.45); }
+  .nav a { color: rgba(255,255,255,.82); font-size: 15px; margin-left: 22px; }
+  .hero-grid { display: grid; grid-template-columns: 1.02fr 1.18fr; gap: 42px; align-items: center; padding: 34px 0 78px; }
+  .eyebrow { display: inline-block; font-size: 13px; font-weight: 650; letter-spacing: .6px; text-transform: uppercase; color: #8ff1ea; background: rgba(28,200,193,.14); border: 1px solid rgba(143,241,234,.28); padding: 6px 12px; border-radius: 99px; }
+  h1 { font-size: 58px; line-height: 1.02; letter-spacing: -2px; margin: 18px 0 16px; }
+  h1 span { background: linear-gradient(90deg, #8ff1ea, #8fb8ff 50%, #b9adff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { font-size: 20px; line-height: 1.5; color: rgba(255,255,255,.78); max-width: 470px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .chip { font-size: 14px; color: rgba(255,255,255,.9); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 7px 13px; border-radius: 99px; }
+
+  /* Display illustration */
+  .stage { position: relative; perspective: 1600px; }
+  .display { position: relative; aspect-ratio: 16/9.6; border-radius: 18px; padding: 10px; background: linear-gradient(160deg, #202a40, #0c1120); box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08) inset; transform: rotateY(-9deg) rotateX(3deg); transform-origin: 60% 50%; }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background: linear-gradient(180deg, #7fb2e6 0%, #b6d4ea 38%, #7fa86a 39%, #4f7e45 70%, #3d6337 100%); }
+  .screen:before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 40% at 30% 20%, rgba(255,255,255,.55), transparent 70%), radial-gradient(40% 30% at 75% 15%, rgba(255,255,255,.45), transparent 70%); }
+  .menubar { position: absolute; left: 0; right: 0; top: 0; height: 5.2%; background: rgba(20,26,40,.55); backdrop-filter: blur(8px); }
+  .win { position: absolute; border-radius: 7px; background: #fbfcfe; box-shadow: 0 14px 30px rgba(0,0,0,.28); overflow: hidden; }
+  .win:before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9%; min-height: 12px; background: #eef1f6; border-bottom: 1px solid rgba(0,0,0,.06); }
+  .win b { position: absolute; top: 3%; left: 3%; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
+  .w1 { left: 4%; top: 10%; width: 55%; height: 68%; }
+  .w1 .hero-mini { position: absolute; left: 6%; right: 6%; top: 16%; height: 34%; border-radius: 6px; background: linear-gradient(120deg, #0e1a3a, #2f7bf6 60%, #1cc8c1); }
+  .w1 .line { position: absolute; left: 6%; height: 5%; border-radius: 3px; background: #dfe5ef; }
+  .w2 { left: 62%; top: 10%; width: 34%; height: 40%; }
+  .w2 .row { position: absolute; left: 8%; right: 8%; height: 11%; border-radius: 4px; background: #eef3fb; }
+  .w3 { left: 62%; top: 54%; width: 34%; height: 24%; background: #0f1522; }
+  .w3:before { background: #1a2233; border-bottom-color: rgba(255,255,255,.05); }
+  .w3 .code { position: absolute; left: 8%; height: 9%; border-radius: 3px; background: #1cc8c1; opacity: .75; }
+  .dock { position: absolute; left: 50%; bottom: 3.5%; transform: translateX(-50%); display: flex; gap: 7px; padding: 6px 9px; border-radius: 12px; background: rgba(255,255,255,.32); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.45); }
+  .dock i { width: 18px; height: 18px; border-radius: 5px; display: block; }
+  .phone { position: absolute; right: -2%; bottom: -12%; width: 23%; aspect-ratio: 9/19.3; border-radius: 26px; padding: 7px; background: #0b0f18; border: 2px solid rgba(255,255,255,.18); box-shadow: 0 30px 60px rgba(0,0,0,.6); transform: rotate(6deg); }
+  .phone .pad { position: absolute; left: 9%; right: 9%; top: 26%; bottom: 17%; border-radius: 16px; background: linear-gradient(#262c38, #151923); }
+  .phone .pad:after { content: ""; position: absolute; width: 38%; aspect-ratio: 1; left: 36%; top: 40%; border-radius: 50%; background: radial-gradient(circle, rgba(143,241,234,.55), rgba(143,241,234,0) 70%); }
+  .phone .top { position: absolute; left: 9%; right: 9%; top: 8%; height: 12%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .phone .top i { border-radius: 8px; background: #20242e; }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 10px 30px rgba(15,21,34,.05); }
+  .card .badge { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; color: white; font-size: 20px; margin-bottom: 14px; }
+  .card h3 { margin: 0 0 6px; font-size: 19px; letter-spacing: -.2px; }
+  .card p { margin: 0; color: var(--muted); font-size: 16px; }
+  h2 { font-size: 34px; letter-spacing: -1px; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 28px; font-size: 18px; }
+  .help { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .help .card ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
+  .help .card li { margin: 6px 0; }
+  footer { padding: 34px 0 56px; color: var(--muted); font-size: 15px; border-top: 1px solid var(--line); }
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; padding-bottom: 64px; }
+    h1 { font-size: 44px; }
+    .features, .help { grid-template-columns: 1fr; }
+    .display { transform: none; }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #eef2fa; --muted: #9aa5b8; --line: rgba(255,255,255,.09); --card: #151b28; --page: #0b101b; }
+  }
 </style>
 </head>
 <body>
-<h1>PocketPC Support</h1>
-<p class="muted">Your iPhone as a desktop computer.</p>
+<header class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand"><i></i>PocketPC</div>
+      <div><a href="#features">Features</a><a href="#help">Help</a><a href="privacy.html">Privacy</a></div>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">A desktop in your pocket</span>
+        <h1>Your iPhone is now <span>a desktop.</span></h1>
+        <p class="lede">Plug into a TV, a monitor or AR display glasses and a full windowed desktop appears, with real websites, AI chats and live translated captions. Your iPhone becomes the trackpad and keyboard.</p>
+        <div class="chips"><span class="chip">USB-C</span><span class="chip">AirPlay</span><span class="chip">Google Cast</span><span class="chip">AR / XR glasses</span></div>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="display"><div class="screen">
+          <div class="menubar"></div>
+          <div class="win w1"><b></b><div class="hero-mini"></div><div class="line" style="top:56%;width:70%"></div><div class="line" style="top:64%;width:58%"></div><div class="line" style="top:72%;width:64%"></div><div class="line" style="top:80%;width:42%"></div></div>
+          <div class="win w2"><b></b><div class="row" style="top:20%"></div><div class="row" style="top:36%"></div><div class="row" style="top:52%"></div><div class="row" style="top:68%"></div></div>
+          <div class="win w3"><b></b><div class="code" style="top:28%;width:50%"></div><div class="code" style="top:46%;width:70%;background:#8fb8ff"></div><div class="code" style="top:64%;width:38%"></div></div>
+          <div class="dock"><i style="background:#6b5cff"></i><i style="background:#2f7bf6"></i><i style="background:#5e5ce6"></i><i style="background:#27313d"></i><i style="background:#6285cf"></i><i style="background:#6a788b"></i></div>
+        </div></div>
+        <div class="phone"><div class="top"><i></i><i></i><i></i></div><div class="pad"></div></div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<p>Need help? Email <a href="mailto:sino0491@gmail.com">sino0491@gmail.com</a> and include your iPhone model and iOS version. We usually reply within two business days.</p>
+<main>
+  <section id="features"><div class="wrap">
+    <h2>Everything a desktop does, from your iPhone.</h2>
+    <p class="sub">No laptop to carry. PocketPC runs entirely on your iPhone.</p>
+    <div class="features">
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#2f7bf6,#6b5cff)">▢</div><h3>A real desktop</h3><p>Resizable windows, a menu bar, a Dock, an app grid and five workspaces, at your display's full resolution.</p></div>
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#1cc8c1,#2f7bf6)">◎</div><h3>Desktop websites</h3><p>Full websites with tabs, downloads and saved passwords. Turn any site into its own app in the Dock.</p></div>
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#6b5cff,#b36bff)">✦</div><h3>AI chats, side by side</h3><p>The AI assistants you already use on the web, together in one window, signed in on their own sites.</p></div>
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#18b67a,#1cc8c1)">A→あ</div><h3>Live translation</h3><p>Read what someone says in your language within a second or two, right in your glasses. Works offline.</p></div>
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#ff8a3d,#ff5f6d)">≋</div><h3>AI Notes</h3><p>Live captions and topics during a meeting, then a transcript and summary saved to Notes.</p></div>
+      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#2f7bf6,#1cc8c1)">⌖</div><h3>Private by design</h3><p>No accounts, no ads, no tracking. Speech is transcribed and translated on your iPhone.</p></div>
+    </div>
+  </div></section>
 
-<h2>Show the desktop on a display</h2>
-<ul>
-  <li><strong>AirPlay:</strong> open Control Center, tap Screen Mirroring and pick your Apple TV, AirPlay-compatible TV or Mac. The AirPlay button in PocketPC shows these steps. Tip: set your iPhone's Action Button to the Screen Mirroring control (Settings › Action Button › Controls) to connect with one press.</li>
-  <li><strong>Cable:</strong> connect a USB-C display or adapter. The desktop appears automatically at the display's best resolution.</li>
-  <li><strong>Google TV or Chromecast:</strong> open Controls and choose Cast to Google TV.</li>
-</ul>
+  <section id="help" style="padding-top:8px"><div class="wrap">
+    <h2>Help</h2>
+    <p class="sub">Need a hand? Email <a href="mailto:sino0491@gmail.com">sino0491@gmail.com</a> with your iPhone model and iOS version. We usually reply within two business days.</p>
+    <div class="help">
+      <div class="card"><h3>Show the desktop on a display</h3><ul>
+        <li><strong>AirPlay:</strong> open Control Center, tap Screen Mirroring and pick your Apple TV, AirPlay TV or Mac. Tip: set the Action Button to the Screen Mirroring control to connect with one press.</li>
+        <li><strong>Cable:</strong> connect a USB-C display, glasses or adapter. The desktop appears automatically at the display's best resolution.</li>
+        <li><strong>Google Cast:</strong> tap Cast on the iPhone and choose a TV with Chromecast built in.</li>
+      </ul></div>
+      <div class="card"><h3>Use your iPhone as trackpad and keyboard</h3><ul>
+        <li>Move with one finger, tap to click, and scroll with two fingers.</li>
+        <li>Click with two fingers for copy, paste and more.</li>
+        <li>Tap Keyboard to type on the desktop. Bluetooth keyboards and mice work too.</li>
+      </ul></div>
+      <div class="card"><h3>Smart Glasses</h3><ul>
+        <li><strong>Walking Directions:</strong> type a destination and pick a suggestion.</li>
+        <li><strong>Live Translation:</strong> tap Start Translating to read a conversation in your language. Download languages ahead of time under Offline Languages.</li>
+        <li><strong>AI Notes:</strong> Start Recording shows live captions and topics. Stop saves the note in Files and Notes.</li>
+      </ul></div>
+      <div class="card"><h3>Sound, sign-in and AI Chats</h3><ul>
+        <li>Tap Sound to choose where audio plays, such as AirPods or the display.</li>
+        <li>Sign in to websites as in Safari. Saved passwords fill with Face ID and go directly to the website.</li>
+        <li>AI Chats keeps web AI assistants in one window. PocketPC isn't affiliated with these services.</li>
+      </ul></div>
+    </div>
+  </div></section>
+</main>
 
-<h2>Use your iPhone as trackpad and keyboard</h2>
-<ul>
-  <li>Move with one finger, tap to click, and scroll with two fingers.</li>
-  <li>Click with two fingers for Copy and Paste.</li>
-  <li>Tap Keyboard to type into the desktop. Bluetooth keyboards and mice work too.</li>
-</ul>
-
-<h2>Sound</h2>
-<p>Tap Sound to choose where audio plays, such as AirPods, a HomePod, or the display's speakers. PocketPC keeps your choice, and the iPhone's volume buttons control it. On a display connected by cable, use the Display volume slider on the iPhone.</p>
-
-<h2>AI Chats</h2>
-<p>Open AI Chats from the dock to keep your web-based AI assistants in one window. Sign in on each service's own website; add or remove services with Add a chat. PocketPC is not affiliated with these services.</p>
-
-<h2>Signing in to websites</h2>
-<p>Sign in to any website as you would in Safari. Saved passwords from iOS Passwords are filled with Face ID. Your passwords go directly to the website.</p>
-
-<h2>Smart Glasses</h2>
-<p>Tap Smart Glasses to turn your display into a see-through heads-up display for display glasses, then choose a mode:</p>
-<ul>
-  <li><strong>Walking Directions:</strong> type a destination and pick a suggestion.</li>
-  <li><strong>Live Translation:</strong> tap Start Translating to read a conversation in your language. Choose the language on that screen or in Controls. Translation happens on your iPhone; the first time you use a new language, iOS downloads it once.</li>
-  <li><strong>AI Notes:</strong> Start Recording shows live captions, speakers and topics. Stop Recording saves the note in Files and Apple Notes.</li>
-</ul>
-<p>Tap Smart Glasses again to return to the desktop.</p>
-
-<h2>Privacy</h2>
-<p>PocketPC collects no data. Read the <a href="privacy.html">privacy policy</a>.</p>
+<footer><div class="wrap">PocketPC collects no data. Read the <a href="privacy.html">privacy policy</a>. · © 2026 Kevin Williams</div></footer>
 </body>
 </html>
