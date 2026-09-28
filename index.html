@@ -3,151 +3,394 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PocketPC · Your iPhone is a desktop</title>
-<meta name="description" content="PocketPC turns your iPhone into a desktop computer on a compatible TV, monitor or AR display glasses, with your iPhone as the trackpad and keyboard.">
-<style>
-  :root {
-    --ink: #0f1522; --muted: #5a6477; --line: rgba(15,21,34,.09);
-    --blue: #2f7bf6; --teal: #1cc8c1; --indigo: #6b5cff; --card: #ffffff; --page: #f4f6fb;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; color: var(--ink); background: var(--page); }
-  a { color: var(--blue); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-  /* Hero */
-  .hero { position: relative; overflow: hidden; color: white; background: radial-gradient(1200px 520px at 78% -10%, rgba(28,200,193,.55), transparent 60%), radial-gradient(900px 600px at 10% 110%, rgba(107,92,255,.55), transparent 60%), linear-gradient(160deg, #0a1022 0%, #0e1a3a 55%, #0b1430 100%); }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; letter-spacing: -.2px; }
-  .brand i { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--teal), var(--blue) 55%, var(--indigo)); box-shadow: 0 6px 18px rgba(47,123,246,.45); }
-  .nav a { color: rgba(255,255,255,.82); font-size: 15px; margin-left: 22px; }
-  .hero-grid { display: grid; grid-template-columns: 1.02fr 1.18fr; gap: 42px; align-items: center; padding: 34px 0 78px; }
-  .eyebrow { display: inline-block; font-size: 13px; font-weight: 650; letter-spacing: .6px; text-transform: uppercase; color: #8ff1ea; background: rgba(28,200,193,.14); border: 1px solid rgba(143,241,234,.28); padding: 6px 12px; border-radius: 99px; }
-  h1 { font-size: 58px; line-height: 1.02; letter-spacing: -2px; margin: 18px 0 16px; }
-  h1 span { background: linear-gradient(90deg, #8ff1ea, #8fb8ff 50%, #b9adff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lede { font-size: 20px; line-height: 1.5; color: rgba(255,255,255,.78); max-width: 470px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
-  .chip { font-size: 14px; color: rgba(255,255,255,.9); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 7px 13px; border-radius: 99px; }
-
-  /* Display illustration */
-  .stage { position: relative; perspective: 1600px; }
-  .display { position: relative; aspect-ratio: 16/9.6; border-radius: 18px; padding: 10px; background: linear-gradient(160deg, #202a40, #0c1120); box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08) inset; transform: rotateY(-9deg) rotateX(3deg); transform-origin: 60% 50%; }
-  .screen { position: relative; width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background: linear-gradient(180deg, #7fb2e6 0%, #b6d4ea 38%, #7fa86a 39%, #4f7e45 70%, #3d6337 100%); }
-  .screen:before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 40% at 30% 20%, rgba(255,255,255,.55), transparent 70%), radial-gradient(40% 30% at 75% 15%, rgba(255,255,255,.45), transparent 70%); }
-  .menubar { position: absolute; left: 0; right: 0; top: 0; height: 5.2%; background: rgba(20,26,40,.55); backdrop-filter: blur(8px); }
-  .win { position: absolute; border-radius: 7px; background: #fbfcfe; box-shadow: 0 14px 30px rgba(0,0,0,.28); overflow: hidden; }
-  .win:before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9%; min-height: 12px; background: #eef1f6; border-bottom: 1px solid rgba(0,0,0,.06); }
-  .win b { position: absolute; top: 3%; left: 3%; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 9px 0 0 #febc2e, 18px 0 0 #28c840; }
-  .w1 { left: 4%; top: 10%; width: 55%; height: 68%; }
-  .w1 .hero-mini { position: absolute; left: 6%; right: 6%; top: 16%; height: 34%; border-radius: 6px; background: linear-gradient(120deg, #0e1a3a, #2f7bf6 60%, #1cc8c1); }
-  .w1 .line { position: absolute; left: 6%; height: 5%; border-radius: 3px; background: #dfe5ef; }
-  .w2 { left: 62%; top: 10%; width: 34%; height: 40%; }
-  .w2 .row { position: absolute; left: 8%; right: 8%; height: 11%; border-radius: 4px; background: #eef3fb; }
-  .w3 { left: 62%; top: 54%; width: 34%; height: 24%; background: #0f1522; }
-  .w3:before { background: #1a2233; border-bottom-color: rgba(255,255,255,.05); }
-  .w3 .code { position: absolute; left: 8%; height: 9%; border-radius: 3px; background: #1cc8c1; opacity: .75; }
-  .dock { position: absolute; left: 50%; bottom: 3.5%; transform: translateX(-50%); display: flex; gap: 7px; padding: 6px 9px; border-radius: 12px; background: rgba(255,255,255,.32); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.45); }
-  .dock i { width: 18px; height: 18px; border-radius: 5px; display: block; }
-  .phone { position: absolute; right: -2%; bottom: -12%; width: 23%; aspect-ratio: 9/19.3; border-radius: 26px; padding: 7px; background: #0b0f18; border: 2px solid rgba(255,255,255,.18); box-shadow: 0 30px 60px rgba(0,0,0,.6); transform: rotate(6deg); }
-  .phone .pad { position: absolute; left: 9%; right: 9%; top: 26%; bottom: 17%; border-radius: 16px; background: linear-gradient(#262c38, #151923); }
-  .phone .pad:after { content: ""; position: absolute; width: 38%; aspect-ratio: 1; left: 36%; top: 40%; border-radius: 50%; background: radial-gradient(circle, rgba(143,241,234,.55), rgba(143,241,234,0) 70%); }
-  .phone .top { position: absolute; left: 9%; right: 9%; top: 8%; height: 12%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
-  .phone .top i { border-radius: 8px; background: #20242e; }
-
-  /* Sections */
-  section { padding: 64px 0; }
-  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: 0 10px 30px rgba(15,21,34,.05); }
-  .card .badge { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; color: white; font-size: 20px; margin-bottom: 14px; }
-  .card h3 { margin: 0 0 6px; font-size: 19px; letter-spacing: -.2px; }
-  .card p { margin: 0; color: var(--muted); font-size: 16px; }
-  h2 { font-size: 34px; letter-spacing: -1px; margin: 0 0 8px; }
-  .sub { color: var(--muted); margin: 0 0 28px; font-size: 18px; }
-  .help { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .help .card ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
-  .help .card li { margin: 6px 0; }
-  footer { padding: 34px 0 56px; color: var(--muted); font-size: 15px; border-top: 1px solid var(--line); }
-  @media (max-width: 860px) {
-    .hero-grid { grid-template-columns: 1fr; padding-bottom: 64px; }
-    h1 { font-size: 44px; }
-    .features, .help { grid-template-columns: 1fr; }
-    .display { transform: none; }
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --ink: #eef2fa; --muted: #9aa5b8; --line: rgba(255,255,255,.09); --card: #151b28; --page: #0b101b; }
-  }
-</style>
+<title>PocketPC · A desktop in your pocket</title>
+<meta name="description" content="Plug your iPhone into a TV, monitor or AR display glasses and get a real desktop: windows, a Dock, full websites, AI chats and live translated captions. Your iPhone becomes the trackpad and keyboard.">
+<meta name="theme-color" content="#05080f">
+<meta property="og:title" content="PocketPC · A desktop in your pocket">
+<meta property="og:description" content="Your iPhone becomes a full windowed desktop on TVs, monitors and AR/XR display glasses. One-time purchase, no subscriptions.">
+<meta property="og:image" content="https://sino0491.github.io/pocketpc/assets/capture-desktop.jpg">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/site.css?v=96">
 </head>
 <body>
-<header class="hero">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8ff1ea"/><stop offset=".5" stop-color="#8fb8ff"/><stop offset="1" stop-color="#b9adff"/></linearGradient>
+    <linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#1cc8c1"/><stop offset="1" stop-color="#8fb8ff"/></linearGradient>
+  </defs>
+  <symbol id="i-apps" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="6" cy="6" r="1.9"/><circle cx="12" cy="6" r="1.9"/><circle cx="18" cy="6" r="1.9"/><circle cx="6" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18" cy="12" r="1.9"/><circle cx="6" cy="18" r="1.9"/><circle cx="12" cy="18" r="1.9"/><circle cx="18" cy="18" r="1.9"/></g></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="3.8" ry="8.5"/><path d="M3.5 12h17M5 7.5h14M5 16.5h14"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4.5h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z"/><path d="M19 8.5h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-4-3h-3a2 2 0 0 1-1.7-1"/></symbol>
+  <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M7 10l3 2.5L7 15M12.5 15.5H17"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5a2 2 0 0 1 2-2h4l2 2.2h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" stroke-width="3.2" stroke-dasharray="2.75 2.75" stroke-linecap="butt"/><circle cx="12" cy="12" r="3.6"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+  <symbol id="i-glasses" viewBox="0 0 24 24"><circle cx="6.5" cy="13" r="3.8"/><circle cx="17.5" cy="13" r="3.8"/><path d="M10.3 12.6c1.1-.8 2.3-.8 3.4 0M2.7 12.5 2 10M21.3 12.5 22 10"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M7 7v10M10 9v6M13 4.5v15M16 8v8M19 10.5v3"/></symbol>
+  <symbol id="i-kbd" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M9 10h.01M12 10h.01M15 10h.01M18 10h.01M7.5 14h9"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><rect x="3" y="5" width="8" height="6" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><rect x="3" y="13" width="8" height="6" rx="1.5"/></symbol>
+  <symbol id="i-airplay" viewBox="0 0 24 24"><path d="M6 17H4.5A1.5 1.5 0 0 1 3 15.5v-9A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v9a1.5 1.5 0 0 1-1.5 1.5H18"/><path d="M12 14l4.5 5.5h-9z" fill="currentColor"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V12M11 11V5a1.5 1.5 0 0 1 3 0v6M14 11V6.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6h-.5a6 6 0 0 1-4.9-2.6L3.3 14a1.5 1.5 0 0 1 2.4-1.8L8 15"/></symbol>
+  <symbol id="i-cable" viewBox="0 0 24 24"><rect x="8" y="2.5" width="8" height="7" rx="1.5"/><path d="M10.5 5.5h3M12 9.5v5a4 4 0 0 1-4 4H5"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="1.8"/><path d="M9 21l2.5-6 2.5 2.5V21M11.5 15l1-6-3 1.5-1.5 3M12.5 9l2 3 3 1"/></symbol>
+  <symbol id="i-translate" viewBox="0 0 24 24"><path d="M3 5.5h9M7.5 3.5v2M5 5.5c.5 3 2.5 5.5 6 7M10 5.5c-.6 3-2.8 6-6.5 7.5"/><path d="M12.5 20.5l4-10 4 10M14 17h5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+</svg>
+
+<nav class="nav" id="nav"><div class="wrap">
+  <a class="brand" href="#top"><span class="logo"></span>PocketPC</a>
+  <div class="links">
+    <a href="#features" data-nav="features">Features</a>
+    <a class="opt" href="#glasses" data-nav="glasses">Glasses</a>
+    <a class="opt" href="#connect" data-nav="connect">Connect</a>
+    <a href="#help" data-nav="help">Help</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="wrap">
-    <nav class="nav">
-      <div class="brand"><i></i>PocketPC</div>
-      <div><a href="#features">Features</a><a href="#help">Help</a><a href="privacy.html">Privacy</a></div>
-    </nav>
-    <div class="hero-grid">
-      <div>
-        <span class="eyebrow">A desktop in your pocket</span>
-        <h1>Your iPhone is now <span>a desktop.</span></h1>
-        <p class="lede">Plug into a TV, a monitor or AR display glasses and a full windowed desktop appears, with real websites, AI chats and live translated captions. Your iPhone becomes the trackpad and keyboard.</p>
-        <div class="chips"><span class="chip">USB-C</span><span class="chip">AirPlay</span><span class="chip">AR / XR glasses</span></div>
-      </div>
-      <div class="stage" aria-hidden="true">
-        <div class="display"><div class="screen">
-          <div class="menubar"></div>
-          <div class="win w1"><b></b><div class="hero-mini"></div><div class="line" style="top:56%;width:70%"></div><div class="line" style="top:64%;width:58%"></div><div class="line" style="top:72%;width:64%"></div><div class="line" style="top:80%;width:42%"></div></div>
-          <div class="win w2"><b></b><div class="row" style="top:20%"></div><div class="row" style="top:36%"></div><div class="row" style="top:52%"></div><div class="row" style="top:68%"></div></div>
-          <div class="win w3"><b></b><div class="code" style="top:28%;width:50%"></div><div class="code" style="top:46%;width:70%;background:#8fb8ff"></div><div class="code" style="top:64%;width:38%"></div></div>
-          <div class="dock"><i style="background:#6b5cff"></i><i style="background:#2f7bf6"></i><i style="background:#5e5ce6"></i><i style="background:#27313d"></i><i style="background:#6285cf"></i><i style="background:#6a788b"></i></div>
-        </div></div>
-        <div class="phone"><div class="top"><i></i><i></i><i></i></div><div class="pad"></div></div>
+    <div class="hero-copy">
+      <span class="eyebrow" data-reveal>A desktop in your pocket</span>
+      <h1 data-reveal style="--d:.08s">Your iPhone is now <span class="grad">a desktop.</span></h1>
+      <p class="lede" data-reveal style="--d:.16s">Connect a TV, a monitor or AR/XR display glasses and a full windowed desktop appears on the big screen, with a menu bar, a Dock, resizable windows and five workspaces. Your iPhone becomes the trackpad and keyboard. No laptop required.</p>
+      <div class="chips" data-reveal style="--d:.24s">
+        <span class="chip"><svg class="i"><use href="#i-cable"/></svg>USB-C</span>
+        <span class="chip"><svg class="i"><use href="#i-airplay"/></svg>AirPlay</span>
+        <span class="chip"><svg class="i"><use href="#i-glasses"/></svg>AR / XR glasses</span>
+        <span class="chip"><svg class="i"><use href="#i-lock"/></svg>No subscriptions</span>
       </div>
     </div>
+
+    <div class="rig" id="rig" data-reveal style="--d:.3s" role="group" aria-label="Interactive PocketPC demo: a desktop on a display, controlled by an iPhone trackpad">
+      <div class="monitor">
+        <div class="bezel">
+          <div class="desk" id="desk">
+            <div class="vd" id="vd">
+              <div class="menubar">
+                <svg class="i mbi"><use href="#i-apps"/></svg>
+                <b id="mbApp">Browser</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
+                <span class="sp"></span>
+                <span class="wsn-row" role="group" aria-label="Workspaces">
+                  <button class="wsn on" data-ws="1" aria-label="Workspace 1">1</button><button class="wsn" data-ws="2" aria-label="Workspace 2">2</button><button class="wsn" data-ws="3" aria-label="Workspace 3">3</button><button class="wsn" data-ws="4" aria-label="Workspace 4">4</button><button class="wsn" data-ws="5" aria-label="Workspace 5">5</button>
+                </span>
+                <svg class="i mbi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg>
+                <span class="clock" id="clock">Mon Sep 28 9:41 AM</span>
+              </div>
+              <div id="layers"></div>
+              <div class="ov-shade" id="ovShade"></div>
+              <div class="dock" id="dock"></div>
+              <div class="launch" id="launch"><div class="launch-grid" id="launchGrid"></div></div>
+              <svg class="cursor off" id="cursor" viewBox="0 0 18 24"><path d="M1.5 1.5v18.2l4.6-4.4 3 6.8 3.2-1.4-3-6.7h6.3z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="stand" aria-hidden="true"></div>
+      </div>
+
+      <div class="phone" id="phone">
+        <div class="phone-screen" id="phoneScreen">
+          <div class="pv" id="pv">
+            <div class="island"></div>
+            <div class="p-status"><span id="pclock">9:41</span><span><svg class="i" viewBox="0 0 24 24" style="font-size:14px"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.5 16a5 5 0 0 1 7 0"/></svg><i class="batt"></i></span></div>
+            <div class="p-head"><b>PocketPC</b>
+              <button class="p-round" data-p="airplay" aria-label="AirPlay"><svg class="i"><use href="#i-airplay"/></svg></button>
+              <button class="p-round" data-p="controls" aria-label="Controls"><svg class="i"><use href="#i-sliders"/></svg></button>
+            </div>
+            <div class="p-search"><span class="p-field"><svg class="i"><use href="#i-search"/></svg>Search the web or enter an address</span><button class="p-browse" data-p="browse"><svg class="i"><use href="#i-compass"/></svg>Browse</button></div>
+            <div class="p-tiles">
+              <button class="p-tile" data-p="notes"><svg class="i"><use href="#i-wave"/></svg>AI Notes</button>
+              <button class="p-tile" data-p="glasses"><svg class="i"><use href="#i-glasses"/></svg>Smart Glasses</button>
+              <button class="p-tile" data-p="sound"><svg class="i"><use href="#i-sound"/></svg>Sound<small>iPhone</small></button>
+            </div>
+            <div class="pad" id="pad" aria-label="Trackpad: drag to move the pointer, tap to click">
+              <div class="glow" id="glow"></div>
+              <div class="pad-hint"><b>Trackpad</b>Drag to move · tap to click</div>
+              <div class="p-kb" id="pkb"></div>
+            </div>
+            <div class="p-bar">
+              <button data-p="kbd"><svg class="i"><use href="#i-kbd"/></svg>Keyboard</button>
+              <button data-p="drag" aria-pressed="false"><svg class="i"><use href="#i-hand"/></svg>Drag</button>
+              <button data-p="apps"><svg class="i"><use href="#i-apps"/></svg>Apps</button>
+              <button data-p="windows"><svg class="i"><use href="#i-windows"/></svg>Windows</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-bar" id="demoBar"><span class="live"></span><span id="demoMsg">Playing a demo. Drag on the iPhone trackpad or click anything on the display to take over.</span><button class="ghost-btn" id="replay" hidden>Replay demo</button></div>
   </div>
 </header>
 
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee">
+  <span>Five workspaces</span><span>Snap and tile windows</span><span>Desktop websites</span><span>AI chats side by side</span><span>Live Translation</span><span>AI Notes</span><span>Walking Directions</span><span>Files · Terminal · Settings</span><span>720p glasses to 4K TVs</span><span>No accounts · no ads · no tracking</span><span>One-time purchase</span>
+</div></div>
+
 <main>
   <section id="features"><div class="wrap">
-    <h2>A desktop workspace, powered by your iPhone.</h2>
-    <p class="sub">No laptop to carry. PocketPC runs entirely on your iPhone.</p>
-    <div class="features">
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#2f7bf6,#6b5cff)">▢</div><h3>A real desktop</h3><p>Resizable windows, a menu bar, a Dock, an app grid and five workspaces, at your display's full resolution.</p></div>
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#1cc8c1,#2f7bf6)">◎</div><h3>Desktop websites</h3><p>Full websites with tabs, downloads and sign-in filling through iOS Passwords. Turn any site into its own app in the Dock.</p></div>
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#6b5cff,#b36bff)">✦</div><h3>AI chats, side by side</h3><p>The AI assistants you already use on the web, together in one window, signed in on their own sites.</p></div>
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#18b67a,#1cc8c1)">A→あ</div><h3>Live translation</h3><p>Read captions and translations in supported languages, right in your glasses. Download languages for offline use. Timing varies with language, device and audio quality.</p></div>
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#ff8a3d,#ff5f6d)">≋</div><h3>AI Notes</h3><p>Live captions and topics during a meeting, then a transcript and summary saved in Files. An optional shortcut also saves to Apple Notes.</p></div>
-      <div class="card"><div class="badge" style="background:linear-gradient(135deg,#2f7bf6,#1cc8c1)">⌖</div><h3>Private by design</h3><p>No accounts, no ads, no tracking. Speech is transcribed and translated on your iPhone.</p></div>
+    <div class="center" data-reveal>
+      <span class="eyebrow">Features</span>
+      <h2>Everything on the big screen.<br><span class="grad">Powered by your iPhone.</span></h2>
+      <p class="sub">A real windowed desktop with desktop websites and built-in apps. It runs entirely on your iPhone.</p>
+    </div>
+
+    <div class="bento">
+      <article class="card s4" data-reveal data-tilt>
+        <div class="viz v-desk" aria-hidden="true">
+          <div class="mb"><div class="wsd"><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="pv1"></div><div class="pv2"></div>
+          <div class="lyr">
+            <div class="mw mw1"><i class="ln" style="top:30%;width:70%"></i><i class="ln" style="top:44%;width:55%"></i><i class="ln" style="top:58%;width:62%"></i></div>
+            <div class="mw mw2"><i class="ln" style="top:30%;width:60%"></i><i class="ln" style="top:46%;width:74%"></i></div>
+            <div class="mw mw3"><i class="ln" style="top:30%;width:60%"></i></div>
+          </div>
+          <div class="mdock"><i style="background:#8a7cff"></i><i style="background:#3977f6"></i><i style="background:#5e5ce6"></i><i style="background:#27313d"></i><i style="background:#6285cf"></i><i style="background:#6a788b"></i></div>
+        </div>
+        <span class="tag">A real desktop</span>
+        <h3>Windows that snap, a Dock, and five workspaces.</h3>
+        <ul>
+          <li>Resizable, snappable windows that open and close with smooth animations</li>
+          <li>A menu bar, a Dock with running apps, an app grid and five workspaces</li>
+          <li>Keyboard shortcuts, full-screen apps and a window overview</li>
+        </ul>
+      </article>
+
+      <article class="card s2" data-reveal style="--d:.08s" data-tilt>
+        <div class="viz v-res" id="vres" aria-hidden="true"><div class="res-num" id="resNum"><span>4K</span></div><div class="res-lbl" id="resLbl">TVs</div></div>
+        <span class="tag">Crisp text</span>
+        <h3>Your display's full resolution.</h3>
+        <p>From 720p glasses to 4K TVs.</p>
+      </article>
+
+      <article class="card s3" data-reveal data-tilt>
+        <div class="viz v-br" aria-hidden="true">
+          <div class="mini-br">
+            <div class="mini-tabs"><i></i><i></i><i></i></div>
+            <div class="mini-url"></div>
+            <div class="mini-site"><div class="hero"></div><div class="col"><i style="width:90%"></i><i style="width:70%"></i><i style="width:80%"></i><i style="width:50%"></i></div></div>
+          </div>
+          <div class="fly"></div>
+          <div class="mini-dock"><i style="background:#3977f6"></i><i style="background:#5e5ce6"></i><i style="background:#27313d"></i><i class="slot"></i></div>
+        </div>
+        <span class="tag">Desktop web browsing</span>
+        <h3>Full websites, not mobile pages.</h3>
+        <ul>
+          <li>Tabs, find on page and downloads</li>
+          <li>A start page with favorites and a link to technology news</li>
+          <li>Fill saved sign-ins with iOS Passwords</li>
+          <li>Turn any website into its own app with a Dock icon and window</li>
+          <li>Video plays full screen on the big display, and can keep playing when your iPhone locks</li>
+        </ul>
+      </article>
+
+      <article class="card s3" data-reveal style="--d:.08s" data-tilt>
+        <div class="viz v-chat" aria-hidden="true">
+          <div><span class="hd"><i style="background:#1cc8c1"></i>Chat 1</span><i class="cb me"></i><i class="cb ai" style="animation-delay:.6s"></i><i class="cb me" style="animation-delay:1.6s;width:50%"></i></div>
+          <div><span class="hd"><i style="background:#b36bff"></i>Chat 2</span><i class="cb me" style="animation-delay:.3s"></i><i class="cb ai" style="animation-delay:1s"></i><i class="cb ai" style="animation-delay:2s;height:24px;width:60%"></i></div>
+          <div><span class="hd"><i style="background:#f0a23b"></i>Chat 3</span><i class="cb me" style="animation-delay:.8s;width:56%"></i><i class="cb ai" style="animation-delay:1.4s"></i></div>
+        </div>
+        <span class="tag">AI chats in one window</span>
+        <h3>The assistants you already use, side by side.</h3>
+        <ul>
+          <li>The AI assistants you use on the web, in one window, plus any others you add</li>
+          <li>Sign in on each service's own website and switch conversations without losing your place</li>
+        </ul>
+      </article>
+
+      <article class="card s2 half" data-reveal data-tilt>
+        <div class="viz v-gest" id="vgest" data-g="move" aria-hidden="true">
+          <div class="g-pad"><i class="fdot f1"></i><i class="fdot f2"></i></div>
+          <div class="g-menu"><div>Copy</div><div>Paste</div><div>Select All</div></div>
+          <div class="g-lbl" id="gLbl"><b>Move</b> · one finger</div>
+        </div>
+        <span class="tag">Trackpad and keyboard</span>
+        <h3>Your iPhone is the trackpad.</h3>
+        <p>Tap to click, scroll with two fingers, and two-finger click for copy and paste. Type with the iPhone keyboard, or pair a Bluetooth keyboard and mouse.</p>
+      </article>
+
+      <article class="card s2 half" data-reveal style="--d:.08s" data-tilt id="builtin">
+        <div class="viz v-app" id="vapp" aria-hidden="true"></div>
+        <span class="tag">Built-in apps</span>
+        <div class="apps-tabs" role="tablist" aria-label="Built-in apps">
+          <button role="tab" aria-selected="true" data-app="files"><i style="background:#6285cf"><svg class="i"><use href="#i-folder"/></svg></i>Files</button>
+          <button role="tab" aria-selected="false" data-app="terminal"><i style="background:#27313d"><svg class="i"><use href="#i-term"/></svg></i>Terminal</button>
+          <button role="tab" aria-selected="false" data-app="settings"><i style="background:#6a788b"><svg class="i"><use href="#i-gear"/></svg></i>Settings</button>
+          <button role="tab" aria-selected="false" data-app="sound"><i style="background:#e0527a"><svg class="i"><use href="#i-sound"/></svg></i>Sound</button>
+        </div>
+        <div class="apps-desc" id="appsDesc" role="tabpanel"><h4>Files</h4><p>Browse, import, organize and preview your files.</p></div>
+      </article>
+
+      <article class="card s2" data-reveal style="--d:.16s" data-tilt>
+        <div class="shield" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8ff1ea"/><stop offset=".5" stop-color="#8fb8ff"/><stop offset="1" stop-color="#b9adff"/></linearGradient></defs><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+        <span class="tag">Private by design</span>
+        <h3>PocketPC collects no data.</h3>
+        <p>Speech is transcribed and translated on your iPhone.</p>
+        <div class="nochips"><span>No accounts</span><span>No ads</span><span>No tracking</span></div>
+      </article>
+    </div>
+
+    <div class="capture" id="capture" data-reveal>
+      <figure>
+        <div class="frame" id="capFrame"><img src="assets/capture-desktop.jpg" width="1630" height="920" loading="lazy" alt="PocketPC on an external display: Terminal, Settings and Files windows side by side above the Dock, on a countryside road wallpaper."></div>
+        <figcaption>A real capture of PocketPC 1.0 on an external display: Terminal, Settings and Files, side by side.</figcaption>
+      </figure>
     </div>
   </div></section>
 
-  <section id="help" style="padding-top:8px"><div class="wrap">
-    <h2>Help</h2>
-    <p class="sub">Need a hand? Email <a href="mailto:sino0491@gmail.com">sino0491@gmail.com</a> with your iPhone model and iOS version. We usually reply within two business days.</p>
-    <div class="help">
-      <div class="card"><h3>Show the desktop on a display</h3><ul>
+  <section class="glasses" id="glasses"><div class="wrap g-grid">
+    <div data-reveal>
+      <span class="eyebrow"><svg class="i"><use href="#i-glasses"/></svg>Made for AR / XR display glasses</span>
+      <h2>A heads-up display for the world around you.</h2>
+      <p class="sub">Smart Glasses mode turns your glasses into a see-through heads-up display, so you can keep your phone in your pocket.</p>
+      <div class="modes" role="tablist" aria-label="Smart Glasses modes">
+        <button class="mode" role="tab" aria-selected="true" data-mode="translate"><svg class="i"><use href="#i-translate"/></svg><div><b>Live Translation</b><span>Read captions and translations in a thread that follows the conversation.</span></div><i class="bar"></i></button>
+        <button class="mode" role="tab" aria-selected="false" data-mode="notes"><svg class="i"><use href="#i-wave"/></svg><div><b>AI Notes</b><span>Live captions and topics during a meeting, then a transcript and summary saved in Files.</span></div><i class="bar"></i></button>
+        <button class="mode" role="tab" aria-selected="false" data-mode="walk"><svg class="i"><use href="#i-walk"/></svg><div><b>Walking Directions</b><span>Turn-by-turn directions in your view, so you're not staring at your phone.</span></div><i class="bar"></i></button>
+      </div>
+      <p class="fine" id="fine"></p>
+    </div>
+    <div class="lens-wrap" data-reveal style="--d:.1s">
+      <div class="lens-top"><span><svg class="i"><use href="#i-glasses"/></svg>What you see through the glasses</span>
+        <span class="seg" role="group" aria-label="View"><button aria-pressed="true" data-view="see">See-through</button><button aria-pressed="false" data-view="raw">Display output</button></span></div>
+      <div class="lens" id="lens">
+        <div class="world"></div>
+        <div class="hudbox" id="hudbox"><div class="hv" id="hv" aria-live="off"></div></div>
+      </div>
+      <p class="lens-note">Glasses show black as clear, so only the bright text floats in your view. Content shown is a sample.</p>
+    </div>
+  </div></section>
+
+  <section id="connect"><div class="wrap">
+    <div class="center" data-reveal>
+      <span class="eyebrow">Connect</span>
+      <h2>Connect by cable <span class="grad">or AirPlay.</span></h2>
+      <p class="sub">The desktop appears on the display and your iPhone becomes its trackpad and keyboard.</p>
+    </div>
+    <div class="conn">
+      <article class="card" data-reveal>
+        <span class="tag">USB-C</span>
+        <h3>Plug in display glasses, a monitor or a TV.</h3>
+        <span class="seg" role="group" aria-label="Display type" style="margin-top:14px"><button aria-pressed="true" data-dev="glasses">Glasses</button><button aria-pressed="false" data-dev="monitor">Monitor</button><button aria-pressed="false" data-dev="tv">TV</button></span>
+        <svg class="cable-svg" viewBox="0 0 520 220" aria-hidden="true">
+          <rect x="24" y="44" width="70" height="140" rx="16" fill="#11151f" stroke="#3a4460" stroke-width="3"/>
+          <rect x="34" y="56" width="50" height="116" rx="9" fill="#0b0e14"/>
+          <circle cx="59" cy="120" r="14" fill="rgba(28,200,193,.35)"/>
+          <path class="cable" d="M59 184 C 59 214, 200 214, 250 170 S 360 110, 380 118"/>
+          <path class="sig" d="M59 184 C 59 214, 200 214, 250 170 S 360 110, 380 118"/>
+          <g class="dev on" data-dev="glasses">
+            <path d="M372 104 h120 M380 104 c0 30 8 42 34 42 c22 0 26-18 30-26 c4 8 8 26 30 26 c26 0 34-12 34-42" stroke="#8fb8ff" stroke-width="5" fill="rgba(143,184,255,.08)" stroke-linejoin="round" transform="translate(-8 -6)"/>
+            <path d="M372 98 L352 92" stroke="#8fb8ff" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <g class="dev" data-dev="monitor">
+            <rect x="370" y="40" width="130" height="86" rx="8" fill="#11151f" stroke="#8fb8ff" stroke-width="4"/>
+            <rect class="dev-scr" x="378" y="48" width="114" height="70" rx="4" fill="rgba(47,123,246,.35)"/>
+            <path d="M425 126 v18 M405 146 h40" stroke="#8fb8ff" stroke-width="4" stroke-linecap="round"/>
+          </g>
+          <g class="dev" data-dev="tv">
+            <rect x="356" y="30" width="156" height="100" rx="6" fill="#11151f" stroke="#8fb8ff" stroke-width="4"/>
+            <rect class="dev-scr" x="364" y="38" width="140" height="84" rx="3" fill="rgba(28,200,193,.3)"/>
+            <path d="M390 130 l-8 18 M478 130 l8 18" stroke="#8fb8ff" stroke-width="4" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <p id="devNote">Glasses must accept video over USB-C (DisplayPort). Glasses with only a camera or speakers and no display aren't supported.</p>
+      </article>
+      <article class="card" data-reveal style="--d:.08s">
+        <span class="tag">AirPlay</span>
+        <h3>Screen Mirroring to an Apple TV, AirPlay TV or Mac.</h3>
+        <svg class="air-svg" viewBox="0 0 420 220" aria-hidden="true">
+          <rect x="30" y="50" width="62" height="126" rx="14" fill="#11151f" stroke="#3a4460" stroke-width="3"/>
+          <rect x="39" y="61" width="44" height="104" rx="8" fill="#0b0e14"/>
+          <path class="wave" d="M112 88 a36 36 0 0 1 0 50"/>
+          <path class="wave" d="M130 72 a58 58 0 0 1 0 82"/>
+          <path class="wave" d="M148 58 a80 80 0 0 1 0 110"/>
+          <rect x="220" y="36" width="170" height="108" rx="7" fill="#11151f" stroke="#8fb8ff" stroke-width="4"/>
+          <rect x="229" y="45" width="152" height="90" rx="3" fill="rgba(107,92,255,.3)"/>
+          <rect x="240" y="56" width="66" height="50" rx="3" fill="rgba(255,255,255,.55)"/><rect x="312" y="56" width="58" height="34" rx="3" fill="rgba(255,255,255,.35)"/>
+          <rect x="275" y="124" width="60" height="7" rx="3.5" fill="rgba(255,255,255,.5)"/>
+          <path d="M280 144 l-6 20 M330 144 l6 20" stroke="#8fb8ff" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <p>Open Control Center, tap Screen Mirroring and choose your display. Tip: set the Action Button to the Screen Mirroring control to connect with one press.</p>
+      </article>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal><div class="n">1</div><b>Connect a display</b><p>Plug in by USB-C, or choose a display with Screen Mirroring.</p></div>
+      <div class="step" data-reveal style="--d:.1s"><div class="n">2</div><b>The desktop appears</b><p>At the display's best resolution, with your windows and Dock.</p></div>
+      <div class="step" data-reveal style="--d:.2s"><div class="n">3</div><b>Your iPhone takes control</b><p>Move, click and scroll on the iPhone, and type with its keyboard.</p></div>
+    </div>
+    <article class="card know" data-reveal>
+      <span class="tag">Good to know</span>
+      <ul>
+        <li>Glasses must accept video over USB-C (DisplayPort). Glasses with only a camera or speakers and no display aren't supported.</li>
+        <li>A cable connection needs an iPhone with USB-C, or a compatible video adapter.</li>
+        <li>The workspace runs websites and PocketPC's built-in tools. It doesn't run Mac apps or other installed iPhone apps.</li>
+        <li>AI Notes summaries need an iPhone with Apple Intelligence. Other iPhones still get the full transcript.</li>
+      </ul>
+    </article>
+  </div></section>
+
+  <section class="band" data-reveal>
+    <div class="wrap">
+      <span class="eyebrow"><svg class="i"><use href="#i-lock"/></svg>Private by design</span>
+      <h2>PocketPC collects <span class="grad">no data.</span></h2>
+      <p class="sub" style="margin:0 auto">Speech is transcribed and translated on your iPhone. Websites you open are run by their owners, as in any browser.</p>
+      <div class="nochips"><span>No accounts</span><span>No ads</span><span>No tracking</span><span>No analytics</span></div>
+      <p style="margin-top:26px"><a href="privacy.html">Read the privacy policy →</a></p>
+    </div>
+  </section>
+
+  <section id="help"><div class="wrap">
+    <div data-reveal>
+      <span class="eyebrow">Help</span>
+      <h2>Need a hand?</h2>
+      <p class="sub">Email <a href="mailto:sino0491@gmail.com">sino0491@gmail.com</a> with your iPhone model and iOS version. We usually reply within two business days.</p>
+    </div>
+    <div class="help-grid">
+      <details data-reveal open><summary>Show the desktop on a display</summary><ul>
         <li><strong>AirPlay:</strong> open Control Center, tap Screen Mirroring and pick a compatible Apple TV, AirPlay TV or Mac. Tip: set the Action Button to the Screen Mirroring control to connect with one press.</li>
         <li><strong>Cable:</strong> connect a USB-C display, glasses or adapter. The desktop appears automatically at the display's best resolution.</li>
-      </ul></div>
-      <div class="card"><h3>Use your iPhone as trackpad and keyboard</h3><ul>
+        <li>Without a display, the iPhone shows how to connect, and Browse opens the web browser on the iPhone itself.</li>
+      </ul></details>
+      <details data-reveal style="--d:.06s"><summary>Use your iPhone as trackpad and keyboard</summary><ul>
         <li>Move with one finger, tap to click, and scroll with two fingers.</li>
         <li>Click with two fingers for copy, paste and more.</li>
         <li>Tap Keyboard to type on the desktop. Bluetooth keyboards and mice work too.</li>
-      </ul></div>
-      <div class="card"><h3>Smart Glasses</h3><ul>
+        <li>Open apps from the Dock or the Apps button, and see every window with Windows.</li>
+      </ul></details>
+      <details data-reveal><summary>Smart Glasses</summary><ul>
         <li><strong>Walking Directions:</strong> type a destination and pick a suggestion.</li>
         <li><strong>Live Translation:</strong> tap Start Translating to read a conversation in your language. Download languages ahead of time under Offline Languages.</li>
         <li><strong>AI Notes:</strong> Start Recording shows live captions and topics. Stop saves the note in Files. Set up the optional Save to Apple Notes shortcut in Controls to save there too.</li>
-      </ul></div>
-      <div class="card"><h3>Sound, sign-in and AI Chats</h3><ul>
+      </ul></details>
+      <details data-reveal style="--d:.06s"><summary>Sound, sign-in and AI Chats</summary><ul>
         <li>Tap Sound to choose where audio plays, such as AirPods or the display.</li>
         <li>Sign in to websites as in Safari. Use iOS Passwords to fill sign-ins into the website.</li>
         <li>AI Chats keeps web AI assistants in one window. PocketPC isn't affiliated with these services.</li>
-      </ul></div>
+      </ul></details>
+      <details data-reveal><summary>Privacy controls</summary><ul>
+        <li>The Privacy Policy, Acknowledgements and Clear Website Data are in Controls on the iPhone and in desktop Settings.</li>
+        <li>Clear Website Data closes webpages and removes cookies, cached website content and saved website sessions. Favorites and downloaded files stay.</li>
+      </ul></details>
     </div>
+  </div></section>
+
+  <section class="cta" data-reveal><div class="wrap">
+    <h2>Put a desktop <span class="grad">in your pocket.</span></h2>
+    <p class="sub">One-time purchase. No subscriptions. For iPhone.</p>
+    <span class="store-pill"><span class="dot"></span>Coming soon to the App Store</span>
   </div></section>
 </main>
 
-<footer><div class="wrap">PocketPC collects no data. Read the <a href="privacy.html">privacy policy</a>. · © 2026 Kevin Williams</div></footer>
+<footer><div class="wrap">
+  <span>PocketPC collects no data. Read the <a href="privacy.html">privacy policy</a>.</span>
+  <span>PocketPC isn't affiliated with the websites and services it opens. · © 2026 Kevin Williams</span>
+</div></footer>
+
+<script src="assets/desk.js?v=96" defer></script>
+<script src="assets/site.js?v=96" defer></script>
 </body>
 </html>
