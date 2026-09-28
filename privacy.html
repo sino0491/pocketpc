@@ -15,7 +15,7 @@
 </head>
 <body>
 <h1>PocketPC Privacy Policy</h1>
-<p class="muted">Effective September 26, 2026</p>
+<p class="muted">Effective September 28, 2026 — build 96 and later</p>
 
 <p>PocketPC turns your iPhone into a desktop computer on an external display. It is built so your information stays with you. The developer does not run any servers for PocketPC and does not collect, store, sell or share your personal information.</p>
 
@@ -24,22 +24,23 @@
 
 <h2>Information that stays on your iPhone</h2>
 <ul>
-  <li><strong>Websites and sign-ins.</strong> Pages you open, cookies, website data and history are stored on your iPhone by Apple's WebKit, like in Safari. When you sign in to a website, your username and password go directly to that website. Saved passwords are filled by iOS Passwords with Face ID; PocketPC never sees or stores them.</li>
+  <li><strong>Websites and sign-ins.</strong> Pages you open, cookies, website data and browsing history are stored on your iPhone. PocketPC also keeps a protected, local copy of website session cookies to preserve sign-ins between launches; this copy is excluded from device backups. Website sign-out and Clear Website Data remove the affected saved sessions. iOS Passwords can fill saved credentials. PocketPC handles text entered through its keyboard, including passwords, transiently on your iPhone to forward it to the website you selected. It does not save website passwords or send them to the developer.</li>
   <li><strong>AI Notes and Live Translation (microphone and speech recognition).</strong> Speech is transcribed and translated on your iPhone. Audio, transcripts and translations are not uploaded. Notes are saved where you choose, such as Apple Notes or the Files app.</li>
-  <li><strong>Location.</strong> Used only to show walking directions in Smart Glasses and local weather on the start page. Directions use Apple Maps. For weather, your approximate coordinates are sent to Open-Meteo (open-meteo.com) to fetch the forecast; nothing identifies you, and PocketPC stores nothing about the request.</li>
+  <li><strong>Location.</strong> Used only for walking directions in Smart Glasses. Route searches use Apple Maps. Location updates continue during active navigation while the iPhone is locked and stop when navigation ends. Build 96 removed native weather requests and does not send location to a weather provider.</li>
   <li><strong>Camera and microphone for websites.</strong> Only when a website you choose, such as a video-call site, asks and you allow it.</li>
-  <li><strong>Local network.</strong> Used to connect Terminal (SSH) to computers you enter and to show the desktop on a Google TV or Chromecast you pick.</li>
-  <li><strong>Terminal.</strong> Host details you save are kept on your iPhone; passwords are stored in the iOS Keychain.</li>
+  <li><strong>Local network.</strong> Used to connect Terminal (SSH) to computers you enter.</li>
+  <li><strong>Terminal.</strong> Host details you save are kept on your iPhone. If you choose to remember a Terminal password, it is stored in this iPhone's Keychain. It is sent only to the SSH host you choose over the encrypted connection.</li>
+  <li><strong>Diagnostics.</strong> Technical diagnostics are kept locally to help troubleshoot the app. They are not sent to the developer automatically. If you choose Share diagnostics, you choose the recipient and should review the file before sharing it.</li>
 </ul>
 
 <h2>Third-party websites</h2>
-<p>PocketPC is a web browser. The websites you visit, including those in the dock, are run by their owners and have their own privacy policies. PocketPC is not affiliated with those websites.</p>
+<p>PocketPC is a web browser. Websites you visit, including those in the Dock and AI Chats, are run by their owners and have their own privacy policies. The start page retrieves public technology headlines from Google News and site icons from bookmarked websites. These network services receive standard connection information, such as your IP address. Text, files, audio or other content you submit to a website are handled by that website under its own policy. PocketPC is not affiliated with those services.</p>
 
 <h2>Children</h2>
 <p>PocketPC gives unrestricted access to the web and is not intended for children. It does not knowingly collect information from anyone, including children.</p>
 
 <h2>Deleting your data</h2>
-<p>Because everything is stored on your iPhone, deleting PocketPC removes its data.</p>
+<p>Use Controls > Clear Website Data, or the same control in desktop Settings, to close webpages and remove cookies, cached website content and saved website sessions. Favorites and downloaded files remain. You can delete notes and files from Files. Removing PocketPC deletes its app-container data, but copies you exported to Apple Notes or elsewhere remain in those destinations. iOS Keychain items can persist after uninstall; to remove a saved Terminal password, turn off Keep password in this iPhone's Keychain for that connection and reconnect.</p>
 
 <h2>Changes</h2>
 <p>If this policy changes, the new version will be posted on this page with a new effective date.</p>
