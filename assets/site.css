@@ -38,8 +38,7 @@ section { position: relative; padding: 110px 0; }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--ink); }
 .brand:hover { text-decoration: none; }
-.logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--teal), var(--blue) 55%, var(--indigo)); box-shadow: 0 6px 18px rgba(47,123,246,.45); position: relative; }
-.logo::after { content: ""; position: absolute; left: 7px; right: 7px; top: 8px; height: 9px; border: 2px solid #fff; border-radius: 2.5px; }
+.logo { width: 30px; height: 30px; flex: none; border-radius: 22.5%; background: #0b1628 url(app-icon.png) center / cover no-repeat; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12), 0 6px 18px rgba(88,220,200,.28); }
 .links { display: flex; gap: 4px; }
 .links a { color: rgba(255,255,255,.75); font-size: 14.5px; padding: 7px 12px; border-radius: 99px; transition: color .2s, background .2s; }
 .links a:hover { text-decoration: none; color: #fff; background: rgba(255,255,255,.07); }
