@@ -104,9 +104,6 @@
     browser: () => `<div class="bw-tabs"></div>
       <div class="bw-bar"><button class="bw-nav" data-bw="back" aria-label="Back">${chev('l')}</button><button class="bw-nav" data-bw="fwd" aria-label="Forward">${chev('r')}</button><button class="bw-nav" data-bw="reload" aria-label="Reload">⟳</button><div class="bw-url" data-field>${icon('search')}<span class="u"></span><i class="caret" hidden></i></div><span class="bw-star">☆</span></div>
       <div class="bw-load"><i></i></div><div class="bw-view scrl"></div>`,
-    chats: () => `<div class="cw">
-        <div class="cw-rail"><i class="on" style="background:linear-gradient(135deg,#1cc8c1,#0f8f8a)"></i><i style="background:linear-gradient(135deg,#b36bff,#6b5cff)"></i><i style="background:linear-gradient(135deg,#f0a23b,#e0527a)"></i><i class="add">+</i></div>
-        <div class="cw-panes"><div class="cw-pane"></div><div class="cw-pane"></div></div></div>`,
     terminal: () => `<div class="tkeys"><span>Auto · Wi‑Fi</span><span>^C</span><span>Esc</span><span>Tab</span><span>←</span><span>↑</span><span>↓</span></div><div class="term scrl"></div>`,
     files: () => `<div class="fw">
         <div class="fw-side"><small>FAVORITES</small><div class="on">My files</div><div>Downloads</div><div>Trash</div></div>
@@ -137,7 +134,6 @@
   const G = (a, b) => `linear-gradient(135deg,${a},${b})`;
   const APPS = {
     browser: { name: 'Browser', icon: 'globe', tint: G('#5b9bff', '#2f6bea'), def: [18, 34, 560, 392], open: true },
-    chats: { name: 'AI Chats', icon: 'chat', tint: G('#8a88ff', '#5e5ce6'), def: [592, 34, 350, 230], open: true },
     terminal: { name: 'Terminal', icon: 'term', tint: G('#3a4452', '#1f262f'), def: [592, 276, 350, 184], open: true, dark: true },
     files: { name: 'Files', icon: 'folder', tint: G('#86a8ee', '#5577c4'), def: [150, 60, 470, 330] },
     settings: { name: 'Settings', icon: 'gear', tint: G('#8d99ab', '#5e6b7e'), def: [436, 44, 330, 404] },
@@ -600,7 +596,7 @@
     }
   }
 
-  // ---------- Settings, web apps, chats, terminal ----------
+  // ---------- Settings, web apps, terminal ----------
   const SPEEDS = [.5, .75, 1, 1.5, 2];
   let speedIx = 2, natural = true;
   function addWebApp() {
@@ -622,22 +618,6 @@
     for (const k of Object.keys(APPS)) if (APPS[k].web) { APPS[k].el.remove(); delete APPS[k]; }
     webCount = 0; lastWeb = null;
     renderDock();
-  }
-
-  const CHAT = [['Summarize this article in three bullets', 3], ['Draft a friendly reply to Sam', 2], ['Plan a 3-day trip to Lisbon', 4], ['Explain this spreadsheet formula', 2]];
-  let chatIx = 0;
-  function chatStep() {
-    $$('.cw-pane', APPS.chats.el).forEach((p, i) => {
-      const [q, n] = CHAT[(chatIx + i * 2) % CHAT.length];
-      p.innerHTML = `<div class="cw-h"><i style="background:${i ? 'linear-gradient(135deg,#b36bff,#6b5cff)' : 'linear-gradient(135deg,#1cc8c1,#0f8f8a)'}"></i>Assistant ${i + 1}</div>
-        <div class="bub me" style="animation-delay:${i * .5}s">${q}</div>
-        <div class="dots" style="animation:bubIn .4s ${i * .5 + .4}s both"><i></i><i></i><i></i></div>`;
-      setTimeout(() => {
-        const d = $('.dots', p);
-        if (d) d.outerHTML = `<div class="bub ai">${Array.from({ length: n }, (_, j) => `<span style="width:${92 - j * 14}%"></span>`).join('')}</div>`;
-      }, 1500 + i * 700);
-    });
-    chatIx++;
   }
 
   const PROMPT = '<span class="p">me@my-mac ~ %</span> ';
@@ -1146,7 +1126,7 @@
       a.el.classList.toggle('hidden', !a.open);
       a.el.style.transform = ''; a.el.style.opacity = '';
     }
-    APPS.chats.el.style.zIndex = 3; APPS.terminal.el.style.zIndex = 4; APPS.browser.el.style.zIndex = 6; Z = 10;
+    APPS.terminal.el.style.zIndex = 4; APPS.browser.el.style.zIndex = 6; Z = 10;
     speedIx = 2; natural = true; dragMode = false;
     $('output', APPS.settings.el).textContent = '1×';
     $('.tog', APPS.settings.el).setAttribute('aria-checked', 'true');
@@ -1273,7 +1253,7 @@
   async function chOverview(tok) {
     await prep(tok);
     await press('windows', tok); await w(1500, tok);
-    const pick = (APPS.chats.state === 'open' && APPS.chats.ws === cur) ? APPS.chats.el : ovList[0] && ovList[0].el;
+    const pick = ovList[0] && ovList[0].el;
     if (ov && pick) { await clickEl(pick, tok); await w(1300, tok); }
   }
   async function chTile(tok) {
@@ -1409,10 +1389,10 @@
     rig.classList.add('on');
     await sleep(900);
     if (bootDone) return;
-    for (const k of ['terminal', 'chats', 'browser']) { openApp(k); await sleep(180); }
+    for (const k of ['terminal', 'files', 'browser']) { openApp(k); await sleep(180); }
     rig.classList.remove('boot', 'linking');
     bootDone = true;
-    APPS.chats.el.style.zIndex = 3; APPS.terminal.el.style.zIndex = 4; APPS.browser.el.style.zIndex = 6; Z = 10;
+    APPS.terminal.el.style.zIndex = 4; APPS.browser.el.style.zIndex = 6; Z = 10;
     await sleep(1200);
     if (!tookOver && !touring) runTour(0);
   }
@@ -1429,8 +1409,6 @@
   brReset();
   switchWs(1, true);
   focus(null);
-  chatStep();
-  setInterval(() => { if (heroVisible && !document.hidden && !reduce && bootDone) chatStep(); }, 6500);
   new IntersectionObserver(es => { heroVisible = es[0].isIntersecting; }, { threshold: .15 }).observe(rig);
   setMode(true);
   if (reduce) {
