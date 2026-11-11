@@ -122,7 +122,7 @@
         <div class="sw-card"><div class="sw-row"><span>Install a website as an app<small>Its own Dock icon and window</small></span><button class="pill-btn" data-add>＋ Add to Dock</button></div></div>
         <div class="sw-h">Keyboard and mouse</div>
         <div class="sw-card"><div class="sw-row"><span>Keyboard shortcuts<small class="kbd">⌃Space apps · ⌘Tab windows · ⌘1–5 workspaces</small></span><button class="pill-btn" data-cmd="shortcuts">⌘ Show</button></div>
-        <div class="sw-row"><span>Bluetooth keyboard and mouse<small>Pair in iPhone Settings</small></span></div></div>
+        <div class="sw-row"><span>Compatible keyboard and mouse<small>Mouse requires AssistiveTouch</small></span></div></div>
         <div class="sw-h">Privacy</div>
         <div class="sw-card"><div class="sw-row"><span>Clear Website Data<small>Cookies, cache and saved sessions</small></span></div></div>
       </div>`,
